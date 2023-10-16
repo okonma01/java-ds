@@ -1,0 +1,574 @@
+package lab78;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+/**
+ * The YorkLinkedBinaryTree tree is an ordered binary tree that supports the
+ * preorder traversal algorithm to visit tree position or elements.
+ * 
+ * In a YorkLinkedBinaryTree tree, we adopt a convention in which we set a node
+ * parent pointer to itself when removed from a tree to recognize it as an
+ * invalid position later on. Thus, in your implementation for the
+ * YorkLinkedBinaryTree tree, you must validate the received input position
+ * every time to ensure that it is a valid tree node.
+ * 
+ * Note: You are responsible for creating and running the tests necessary to ensure 
+ * that you have correct implementation of YorkLinkedBinaryTree tree. 
+ * 
+ *
+ */
+public class YorkLinkedBinaryTree<E> implements BinaryTree<E> {
+
+
+	// -------------- nested Node Class ------------------
+	protected static class Node<E> implements Position<E> {
+		// ALREADY IMPLEMENTED; DO NOT MODIFY
+		private E element; 
+		private Node<E> parent; 
+		private Node<E> left; 
+		private Node<E> right; 
+		//----------------------------
+
+		/** 
+		 * Constructs a node with the given element and neighbors. 
+		 * */
+		public Node(E e, Node<E> above, Node<E> leftChild, Node<E> rightChild) {
+			// TODO: Your implementation of this method starts here
+			element = e;
+			parent = above;
+			left = leftChild;
+			right = rightChild;
+		}
+
+
+		public Node<E> getParent() {
+			// TODO: Your implementation of this method starts here
+			return parent;
+		}
+
+		public Node<E> getLeft() {
+			// TODO: Your implementation of this method starts here
+			return left;
+		}
+
+		public Node<E> getRight() {
+			// TODO: Your implementation of this method starts here
+			return right;
+		} 
+
+		public void setElement(E e) {
+			// TODO: Your implementation of this method starts here
+			element = e;
+		}
+
+		public void setParent(Node<E> parentNode) {
+			// TODO: Your implementation of this method starts here
+			parent = parentNode;
+		}
+
+		public void setLeft(Node<E> leftChild) {
+			// TODO: Your implementation of this method starts here
+			left = leftChild;
+		}
+
+		public void setRight(Node<E> rightChild) {
+			// TODO: Your implementation of this method starts here
+			right = rightChild;
+		}
+
+		@Override
+		public E getElement() throws IllegalStateException {
+			// TODO: Your implementation of this method starts here
+			return element;			
+		}
+
+	}
+	//---- end of nested Node class----------------------
+
+	/**
+	 * Add any other private data members or methods that are necessary to manage
+	 * the YorkLinkedBinaryTree 
+	 */
+
+	// ALREADY IMPLEMENTED; DO NOT MODIFY
+	private Node<E> root;
+
+	// ALREADY IMPLEMENTED; DO NOT MODIFY
+	protected int size;
+
+
+	/**
+	 * Constructs an empty tree
+	 */
+	public YorkLinkedBinaryTree() {
+		// TODO: Your implementation of this method starts here
+		root = null;
+		size = 0;
+	}
+
+	@Override
+	public Position<E> root() {
+		// TODO: Your implementation of this method starts here
+		return root;
+	}
+	
+	protected Position<E> setRoot(Position<E> p) {
+		Position<E> oldRoot = root();
+		((Node<E>) p).setParent(null);
+//		((Node<E>) p).setLeft((Node<E>) left(root));
+//		((Node<E>) p).setRight((Node<E>) right(root));
+//		((Node<E>) left(root)).setParent((Node<E>) p);
+//		((Node<E>) right(root)).setParent((Node<E>) p);
+		root = (Node<E>) p;
+		return oldRoot;
+	}
+
+	@Override
+	public Position<E> parent(Position<E> p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		if (isRoot(p)) {
+			return null;
+		}
+		Node<E> node = validate(p);
+		return (Position<E>)node.getParent();
+	}
+
+	@Override
+	public Iterable<Position<E>> children(Position<E> p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		Node<E> node = validate(p);
+		List<Position<E>> children = new ArrayList<Position<E>>();
+
+		if (node.getLeft() != null) {
+			children.add((Position<E>) node.getLeft());
+		}
+
+		if (node.getRight() != null) {
+			children.add((Position<E>) node.getRight());
+		}
+
+		return children;
+	}
+
+	@Override
+	public int numChildren(Position<E> p) throws IllegalArgumentException {
+		// TODO Auto-generated method stub
+		Node<E> node = validate(p);
+		int n = 0;
+
+		if (node.getLeft() != null) {
+			n++;
+		}
+		if (node.getRight() != null) {
+			n++;
+		}
+
+		return n;
+	}
+	
+	public int numInternalNodes(Position<E> p) throws IllegalArgumentException {
+		
+//		if (p == null) {
+//			return 0;
+//		}
+		Node<E> node = validate(p);
+		int n = 0;
+		
+
+		if (left(node) != null && !isExternal(left(node))) {
+			n += 1 + numInternalNodes(left(node));
+		}
+		if (right(node) != null && !isExternal(right(node))) {
+			n += 1 + numInternalNodes(right(node));;
+		}
+		
+		return n;
+	}
+
+	@Override
+	public boolean isInternal(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		return numChildren(node) > 0;
+	}
+
+	@Override
+	public boolean isExternal(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		return numChildren(node) == 0;
+	}
+
+	@Override
+	public boolean isRoot(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		return p.equals(root);
+	}
+
+	@Override
+	public int size() {
+		// TODO: Your implementation of this method starts here
+		return size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO: Your implementation of this method starts here
+		return size == 0;
+	}
+
+	/**
+	 *  Places element e at the root of an empty tree and returns its new Position.
+	 *  
+	 * @param e element of root 
+	 * @return  position of root 
+	 * @throws IllegalStateException if the tree is not empty
+	 */
+
+	public Position<E> addRoot(E e) throws IllegalStateException {
+		// TODO: Your implementation of this method starts here
+		if (!isEmpty()) {
+			throw new IllegalStateException("tree is not empty");
+		}
+		root = new Node<E>(e, null, null, null);
+		size++;
+		return (Position<E>) root;
+	}
+
+	/**
+	 * Compute the depth of any given valid position by returning the number of
+	 * levels separating Position p from the root.
+	 * 
+	 * @param p A valid Position within the tree
+	 * @return Returns the number of levels separating Position p from the root.
+	 * @throws IllegalArgumentException if p is not a valid Position for this tree
+	 */
+	public int depth(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+
+		if (p.equals(root)) {
+			return 0;
+		}
+		else {
+			return 1 + depth(parent(p));
+		}
+	}
+
+	/**
+	 * 
+	 * @param p A valid Position within the tree
+	 * @return Returns the height of the subtree rooted at Position p.
+	 * @throws IllegalArgumentException
+	 */
+	public int height(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+
+		if (isExternal(p)) {
+			return 0;
+		}
+		else {
+			if (left(p) != null && right(p) == null) {
+				return 1 + height(left(p));
+			}
+			else if (right(p) != null && left(p) == null) {
+				return 1 + height(right(p));
+			}
+			else {				
+				return 1 + Math.max(height(left(p)), height(right(p)));
+			}
+		}
+	}
+
+	/**
+	 * Return the height of this binary tree
+	 * 
+	 * @return the height of this binary tree
+	 */
+	public int height() {
+		// TODO: Your implementation of this method starts here
+		return height(root);
+	}	
+
+	@Override
+	public Position<E> left(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		return node.getLeft();
+	}
+
+	@Override
+	public Position<E> right(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		return node.getRight();
+	}
+
+	@Override
+	public Position<E> sibling(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		Position<E> sibling = null;
+		if (!p.equals(root)) {
+			Position<E> parent = parent(p);
+			if (numChildren(parent) == 2) {
+				if (p.equals(left(parent))) {
+					sibling = right(parent);
+				}
+				else if (p.equals(right(parent))) {
+					sibling = left(parent);
+				}
+			}
+		}
+		return sibling;
+	}
+
+
+	/**
+	 * insert as the left child of P to contain the element e, return the newly
+	 * inserted node, 
+	 * Creates a new left child of Position p storing element e; returns its  Position.
+	 *  
+	 * @param p  the position where the left child will be added 
+	 * @param e  the element that will be added as the left child of position p
+	 * @return  the Position of the newly added left child 
+	 * @throws IllegalArgumentException if p is not a valid Position for this tree or 
+	 * 									the given position has already a left child 
+	 */
+	public Position<E> insertLeft(Position<E> p, E e) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		if (node.getLeft() != null) {
+			throw new IllegalArgumentException("p already has a left child");
+		}
+
+		Node<E> newNode = new Node<E>(e, null, null, null);
+		node.setLeft(newNode);
+		newNode.setParent(node);
+		size++;
+
+		return (Position<E>) newNode;
+	}
+
+
+	/**
+	 * insert as the right child of P to contain the element e, return the newly
+	 * inserted node 
+	 * @param p the position where the right child will be added
+	 * @param e the element that will be added as the right child of position p
+	 * @return the Position of the newly added right child
+	 * @throws IllegalArgumentException if p is not a valid Position for this tree.
+	 *                                  or the given position has already a right
+	 *                                  child
+	 */
+	public Position<E> insertRight(Position<E> p, E e) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		if (node.getRight() != null) {
+			throw new IllegalArgumentException("p already has a right child");
+		}
+
+		Node<E> newNode = new Node<E>(e, null, null, null);
+		node.setRight(newNode);
+		newNode.setParent(node);
+		size++;
+
+		return (Position<E>) newNode;
+	}
+
+
+	/**
+	 * Replaces the element at Position p with element e and returns the old
+	 * element.
+	 *
+	 * @param p the input Position need to be updated
+	 * @param e the new element
+	 * @return the old element
+	 * @throws IllegalArgumentException if p is not a valid Position for this tree.
+	 */
+	public E set(Position<E> p, E e) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		E oldElem = node.getElement();
+		node.setElement(e);
+		return oldElem;
+	}
+
+	/**
+	 *  Remove position p if p has at most one child and return p's parent 
+	 * 
+	 * @param p  the input position that needs to be removed from the tree 
+	 * @return    the parent of the removed position
+	 * @throws IllegalArgumentException  if p is not a valid Position for this tree or 
+	 * 										p has two children
+	 */
+	public Position<E> remove(Position<E> p) throws IllegalArgumentException {
+		// TODO: Your implementation of this method starts here
+		Node<E> node = validate(p);
+		if (numChildren(p) == 2) {
+			throw new IllegalArgumentException("p has 2 children");
+		}
+
+		Node<E> child = ( (left(p) != null) ? (Node<E>) left(p) : (Node<E>) right(p) );
+		Node<E> parent = node.getParent();
+
+		if (child != null) {
+			child.setParent(parent);
+		}
+		if (node == root) {
+			root = child;
+		}
+		else {
+			if (node == parent.getLeft()) {
+				parent.setLeft(child);
+			}
+			else {
+				parent.setRight(child);
+			}
+		}
+		size--;
+		node.setElement(null);
+		node.setParent(node);
+		node.setLeft(null);
+		node.setRight(null);
+
+		return parent;
+	}
+
+
+	/**
+	 * Attaches two sub-trees t1 and t2, respectively, as the left and right subtree
+	 * of the leaf Position p. After you successfully added t1 and t2 to a new tree
+	 * and became part of a big tree, the t1 and t2 are set to empty trees.
+	 *
+	 * @param p  a leaf of the tree
+	 * @param t1 a completely independent tree whose structure becomes the left
+	 *           child of p
+	 * @param t2 a completely independent tree whose structure becomes the right
+	 *           child of p
+	 * @throws IllegalArgumentException if p is not a valid Position for this tree
+	 *                                  or p is not a leaf
+	 * 
+	 */
+	public void attach(Position<E> p, YorkLinkedBinaryTree<E> t1, YorkLinkedBinaryTree<E> t2)
+			throws IllegalArgumentException {
+
+		// TODO: Your implementation of this method starts here
+
+		Node<E> node = validate(p);
+
+		if (isInternal(p)) {
+			throw new IllegalArgumentException("p must be a leaf");
+		}
+
+		size += t1.size() + t2.size();
+
+		if (!t1.isEmpty()) {
+			t1.root.setParent(node);
+			node.setLeft((Node<E>) t1.root());
+			t1.root = null;
+			t1.size = 0;
+		}
+
+		if (!t2.isEmpty()) {
+			t2.root.setParent(node);
+			node.setRight((Node<E>) t2.root());
+			t2.root = null;
+			t2.size = 0;
+		}
+	}
+
+
+	protected Node<E> validate(Position<E> p) throws IllegalArgumentException {
+
+		if (!(p instanceof Node)) {
+			throw new IllegalArgumentException("Invalid position type");
+		}
+
+		Node<E> node = (Node<E>) p;
+
+		if (node.getParent() == node) {
+			throw new IllegalArgumentException("p is no longer in the tree");
+		}
+
+		return node;
+	}
+
+
+	public String toString() {
+		String s = "";
+		if (!isEmpty()) {
+			int i = 0;
+			for (E e : this) {
+				if (i == size() - 1) {
+					s = s.concat(e.toString());
+				}
+				else {					
+					s = s.concat(e.toString() + ", ");
+				}
+				i++;
+			}
+		}
+		return s;
+	}
+
+	/**
+	 * The YorkLinkedBinaryTree tree is an ordered binary tree that supports the
+	 * preorder traversal algorithm to visit tree position or elements.
+	 */
+	@Override
+	public Iterator<E> iterator() {
+		// TODO: Your implementation of this method starts here
+		Iterable<Position<E>> positions = positions();
+		List<E> elements = new ArrayList<E>();
+		for (Position<E> pos : positions) {
+			elements.add(pos.getElement());
+		}
+		return elements.iterator();
+	}
+
+	/**
+	 * The YorkLinkedBinaryTree tree is an ordered binary tree that supports the
+	 * preorder traversal algorithm to visit tree position or elements.
+	 */
+
+	@Override
+	public Iterable<Position<E>> positions() {
+		// TODO: Your implementation of this method starts here
+		List<Position<E>> positions = new ArrayList<Position<E>>();
+		if (!isEmpty()) {
+			preorderPositions(root, positions);
+		}
+		return positions;
+	}
+
+//	private void preorderPositions(Position<E> root, List<Position<E>> positions) {
+//
+//		positions.add(root);
+//		orderHelper(left(root), positions);
+//		orderHelper(right(root), positions);
+//	}
+
+	private void preorderPositions(Position<E> node, List<Position<E>> positions) {
+
+		if (node != null) {			
+			if (isExternal(node)) {
+				positions.add(node);
+			}
+			else {
+				positions.add(node);
+				preorderPositions(left(node), positions);
+				preorderPositions(right(node), positions);
+			}
+		}
+		
+	}
+
+//	private void orderHelper(Position<E> pos, List<Position<E>> posList) {
+//	}
+
+}

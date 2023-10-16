@@ -1,0 +1,563 @@
+package lab3;
+
+import java.util.Iterator;
+import java.util.*;
+import java.lang.annotation.*;
+
+public class YorkLinkedList<E> implements List<E> {
+
+	// ALREADY IMPLEMENTED; DO NOT MODIFY
+	private static class Node<E> {
+		E element;
+		Node<E> next;
+
+		public Node(E element) {
+			this.element = element;
+		}
+	}
+
+	///////////////////////////////////////////
+
+	/**
+	 * Need to use the variable head to refer to the first node in the list, and the
+	 * variable tail to the last node.
+	 * 
+	 */
+	// ALREADY IMPLEMENTED; DO NOT MODIFY
+	private Node<E> head, tail;
+	/**
+	 * current number of elements
+	 */
+	// ALREADY IMPLEMENTED; DO NOT MODIFY
+	private int size = 0;
+
+	/////////////////////////////////////////
+
+	public YorkLinkedList() {
+		// TODO: Your implementation of this method starts here
+//		head = null;
+//		tail = null;
+	}
+
+	public YorkLinkedList(E[] objects) {
+		// TODO: Your implementation of this method starts here
+		this();
+		for (E obj : objects) {
+			addLast(obj);
+		}
+	}
+
+	@Override
+	public int size() {
+		// TODO: Your implementation of this method starts here
+		return size;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO: Your implementation of this method starts here
+		return size == 0;
+
+	}
+
+	/**
+	 * Add the newly created node to the beginning of this list
+	 * 
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 * 
+	 * @param e
+	 */
+	@TimeComplexity(value = "")
+	public void addFirst(E e) {
+		// TODO: Your implementation of this method starts here
+		Node<E> headNode = new Node<E>(e);
+//		this.add(0, e);
+		if (isEmpty()) {
+			headNode.next = null;
+			tail = headNode;
+		}
+		else {
+			headNode.next = head;
+		}
+		head = headNode;
+		size++;
+	}
+
+	/**
+	 * return the element stored inside the first node of this list the method
+	 * return null if this list is empty
+	 * 
+	 * @return
+	 */
+	public E getFirst() {
+		// TODO: Your implementation of this method starts here
+		if (isEmpty()) {
+			return null;
+		}
+		else {			
+			return head.element;
+		}
+	}
+
+	/**
+	 * Add the newly created node to the end of this list
+	 * 
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 * 
+	 * @param e
+	 */
+	@TimeComplexity(value = "")
+	public void addLast(E e) {
+		// TODO: Your implementation of this method starts here
+		Node<E> tailNode = new Node<E>(e);
+//		this.add(0, e);
+		tailNode.next = null;
+		if (isEmpty()) {
+			head = tailNode;
+		}
+		else {
+			tail.next = tailNode;
+		}
+		tail = tailNode;
+		size++;
+	}
+
+	/**
+	 * Return the last element stored inside the last node in this list if the list
+	 * is empty returns null.
+	 * 
+	 * 
+	 * @return
+	 */
+	public E getLast() {
+		// TODO: Your implementation of this method starts here
+		if (isEmpty()) {
+			return null;
+		}
+		else {			
+			return tail.element;
+		}
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public E get(int i) throws IndexOutOfBoundsException {
+		// TODO: Your implementation of this method starts here
+		if (i < 0 || i >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		int j = 0;
+		Node<E> node = head;
+		do {
+			if (j == i) {
+				return node.element;
+			}
+			else {
+				j++;
+				node = node.next;
+			}
+		} while(node != null);
+
+		return null;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public E set(int i, E e) throws IndexOutOfBoundsException {
+		// TODO: Your implementation of this method starts here
+		if (i < 0 || i >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		Node<E> newNode = new Node<E>(e);
+		
+		int j = 0;
+		Node<E> node = head;
+		do {
+			if (j == i-1) {
+				Node<E> temp = node.next;
+				newNode.next = node.next.next;
+				node.next = newNode;
+				return temp.element;
+			}
+			else {
+				j++;
+				node = node.next;
+			}
+		} while(node != null);
+		
+		
+		return null;
+
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public void add(int i, E e) {
+		// TODO: Your implementation of this method starts here
+		if (i == 0) {
+			addFirst(e);
+		}
+		else if (i >= size) {
+			addLast(e);
+		}
+		else {
+			Node<E> newNode = new Node<E>(e);
+			int j = 0;
+			Node<E> node = head;
+			do {
+				if (j == i-1) {
+					newNode.next = node.next;
+					node.next = newNode;
+					size++;
+					break;
+				}
+				else {
+					j++;
+					node = node.next;
+				}
+			} while(node != null);
+		}
+	}
+
+	/**
+	 * Remove the first node and then return the element stored inside this node the
+	 * method return null if this list is empty
+	 * 
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 * 
+	 * @return
+	 */
+	@TimeComplexity(value = "")
+	public E removeFirst() {
+		// TODO: Your implementation of this method starts here
+		if(isEmpty()) {			
+			return null;
+		}
+		Node<E> temp = new Node<E>(head.element);
+		head = head.next;
+		size--;
+		return temp.element;
+	}
+
+	/**
+	 * Remove the last node in this list then return the element stored inside the
+	 * last node. the method returns null if this list is empty
+	 * 
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 * 
+	 * @return
+	 */
+	@TimeComplexity(value = "")
+	public E removeLast() {
+		// TODO: Your implementation of this method starts here
+		if(isEmpty()) {			
+			return null;
+		}
+//		E res = 
+		if (size == 1) {
+			return removeFirst();
+		}
+		else {
+			Node<E> node = head;
+			E elem = null;
+			do {
+				if (node.next.next == null) {
+					elem = node.next.element;
+					node.next = null;
+					tail = node;
+					size--;
+					break;
+				}
+				else {
+					node = node.next;
+				}
+			} while(node != null);
+			return elem;
+		}
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public E remove(int i) throws IndexOutOfBoundsException {
+		// TODO: Your implementation of this method starts here
+		if (i < 0 || i >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		if (i == 0) {
+			removeFirst();
+		}
+		else if (i == size-1) {
+			removeLast();
+		}
+		else {
+			Node<E> node = head;
+			int j = 0;
+			do {
+				if (j == i-1) {
+					Node<E> temp = node.next;
+					node.next = node.next.next;
+					size--;
+					return temp.element;
+				}
+				else {
+					j++;
+					node = node.next;
+				}
+			} while(node != null);
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * Search this list and return the first match index. If this list does not
+	 * contain the element, it is unchanged and return -1 . More formally, returns
+	 * the the lowest index {@code i} such that {@code equals(e, get(i))} (if such
+	 * an element exists). Returns {@code i} if this list contained the specified
+	 * element .
+	 * 
+	 * @param e
+	 * @return
+	 */
+	public int indexOf(E e) {
+		// TODO: Your implementation of this method starts here
+		if (!isEmpty()) {			
+			Node<E> node = head;
+			int j = 0;
+			do {
+				if (node.element.equals(e)) {
+					return j;
+				}
+				j++;
+				node = node.next;
+			} while(node != null);
+		}
+		return -1;
+	}
+
+	/**
+	 * Search this list and return the last match index. If this list does not
+	 * contain the element, it is unchanged and return -1 . More formally, returns
+	 * the the largest index {@code i} such that {@code equals(e, get(i))} (if such
+	 * an element exists). Returns {@code i} if this list contained the specified
+	 * element .
+	 * 
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 * 
+	 * @param e
+	 * @return
+	 */
+	@TimeComplexity(value = "")
+	public int lastIndexOf(E e) {
+		// TODO: Your implementation of this method starts here
+		int res = -1;
+		if (!isEmpty()) {			
+			Node<E> node = head;
+			int j = 0;
+			do {
+				if (node.element.equals(e)) {
+					res = j;
+				}
+				j++;
+				node = node.next;
+			} while(node != null);
+		}
+		return res;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public boolean contains(E e) throws NullPointerException {
+		// TODO: Your implementation of this method starts here
+		if (e == null) {
+			throw new NullPointerException();
+		}
+		Node<E> node = head;
+		do {
+			if (e.equals(node.element)) {
+				return true;
+			}
+			else {
+				node = node.next;
+			}
+		} while (node != null);
+		return false;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public boolean remove(E e) throws NullPointerException {
+		// TODO: Your implementation of this method starts here
+		if (e == null) {
+			throw new NullPointerException();
+		}
+		Node<E> node = head;
+		int j = 0;
+		do {
+			if (e.equals(node.element)) {
+				remove(j);
+				return true;
+			}
+			else {
+				j++;
+				node = node.next;
+			}
+		} while(node != null);
+		
+		return false;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public boolean addAll(List<E> otherList) throws NullPointerException {
+		// TODO: Your implementation of this method starts here
+		boolean res = false;
+		if (otherList == null || otherList.contains(null)) {
+			throw new NullPointerException();
+		}
+		for (E obj : otherList) {
+			addLast(obj);
+			res = true;
+		}
+		return res;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public boolean removeAll(List<E> otherList) throws NullPointerException {
+		// TODO: Your implementation of this method starts here
+		boolean res = false;
+		if (otherList == null || otherList.contains(null)) {
+			throw new NullPointerException();
+		}
+		if (!isEmpty()) {
+			Node<E> node = head;
+			do {
+				if (otherList.contains(node.element)) {
+					res = res || remove(node.element);
+				}
+				node = node.next;
+			} while (node.next != null);
+		}
+
+		return res;
+	}
+
+	/*
+	 * Add time complexity annotation taken by this method (@TimeComplexity).
+	 * Justify the time complexity inside the method body with TCJ
+	 */
+	@TimeComplexity(value = "")
+	@Override
+	public boolean retainAll(List<E> otherList) throws NullPointerException {
+		// TODO: Your implementation of this method starts here
+		boolean res = false;
+		if (otherList == null || otherList.contains(null)) {
+			throw new NullPointerException();
+		}
+		if (!isEmpty()) {
+			Node<E> node = head;
+			do {
+				if (!otherList.contains(node.element)) {
+					res = res || remove(node.element);
+				}
+				node = node.next;
+			} while (node.next != null);
+		}
+		return res;
+//		return false;
+	}
+
+
+	/**
+	 * Return String value represent the content of list as 
+	 * example "[30, 110, -110, -2, 1322]"
+	 */
+	@Override
+	public String toString() {
+		// TODO: Your implementation of this method starts here
+		String res = "[";
+		if (!isEmpty()) {
+			Node<E> node = head;
+			do {
+				res = res.concat(node.element.toString());
+				if (node.next != null) {					
+					res = res.concat(", ");
+				}
+				node = node.next;
+			} while (node != null);
+		}
+		return res.concat("]");
+	}
+
+	@Override
+	public Iterator<E> iterator() {
+		// TODO: Your implementation of this method starts here
+		return new LinkedListIterator();
+
+	}
+	
+	private class LinkedListIterator implements Iterator<E> {
+		Node<E> node = head;
+		E elem = node.element;
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return node.next != null;
+		}
+
+		@Override
+		public E next() {
+			// TODO Auto-generated method stub
+			elem = node.element;
+			node = node.next;
+			return elem;
+		}
+		
+//		@Override
+//		public void remove() {
+//			boolean r = remove(elem);
+//		}
+		
+	}
+
+
+
+}

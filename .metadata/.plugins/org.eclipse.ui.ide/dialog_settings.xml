@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/Users/daniel/Downloads/lab2"/>
+		<item value="/Users/daniel/Downloads/EECS2030_LAB2W20"/>
+		<item value="/Users/daniel/Downloads/Untitled.zip"/>
+		<item value="/Users/daniel/Downloads/EECS2030-Z-master/lab1"/>
+		<item value="/Users/daniel/Downloads/EECS2030-Z-master/lab1/EECS2030_LAB1W20_student/src"/>
+		<item value="/Users/daniel/Downloads/EECS2030_LAB1W20_student.zip"/>
+		<item value="/Users/daniel/Downloads/EECS2030_LAB1W20_student"/>
+	</list>
+	<section name="ExternalProjectImportWizard">
+		<item key="WizardProjectsImportPage.STORE_NESTED_PROJECTS" value="true"/>
+		<item key="WizardProjectsImportPage.STORE_COPY_PROJECT_ID" value="true"/>
+		<item key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED" value="true"/>
+		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
+		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
+		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value=""/>
+			<item value="/Users/daniel/Downloads/EECS2030-Z-master"/>
+			<item value="/Users/daniel/Desktop/EECS2030_LAB5W20_stu"/>
+			<item value="/Users/daniel/Downloads/EECS2030_LAB3W20"/>
+			<item value="/Users/daniel/Downloads/EECS2030_LAB2W20"/>
+			<item value="/Users/daniel/Downloads/Counter"/>
+			<item value="/Users/daniel/Desktop/EECS2030_LAB1W20_student"/>
+		</list>
+		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab78.zip"/>
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab6.zip"/>
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab5.zip"/>
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab4.zip"/>
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab3.zip"/>
+			<item value="/Users/daniel/Google Drive/School/eecs 2011/Lab2.zip"/>
+			<item value="/Users/daniel/Downloads/Lab1.zip"/>
+			<item value=""/>
+			<item value="/Users/daniel/Downloads/EECS2030_LAB4W20_stu.zip"/>
+			<item value="/Users/daniel/Downloads/Untitled.zip"/>
+			<item value="/Users/daniel/.Trash/EECS2030_LAB0W20_student.zip"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
+		<item key="ShowStatusLine" value="true"/>
+		<item key="History" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;History&gt;&#x0A;&lt;historyRootNode/&gt;&#x0A;&lt;/History&gt;"/>
+		<item key="ShowDerived" value="false"/>
+		<item key="FilterByLocation" value="false"/>
+		<item key="WorkingSet" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#x0A;&lt;workingSet workingSetName=&quot;&quot;/&gt;"/>
+		<section name="DialogBoundsSettings">
+			<item key="DIALOG_HEIGHT" value="500"/>
+			<item key="DIALOG_WIDTH" value="600"/>
+			<item key="DIALOG_X_ORIGIN" value="420"/>
+			<item key="DIALOG_Y_ORIGIN" value="117"/>
+			<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+		</section>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item key="DIALOG_X_ORIGIN" value="425"/>
+		<item key="DIALOG_Y_ORIGIN" value="279"/>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+	<section name="org.eclipse.text.quicksearch.internal.ui.QuickSearchDialog.DIALOG_SETTINGS">
+		<item key="LAST_QUERY" value=""/>
+		<item key="PATH_FILTER" value=""/>
+		<item key="CASE_SENSITIVE" value="true"/>
+		<item key="KEEP_OPEN" value="false"/>
+		<list key="COLUMN_WIDTHS">
+			<item value="40"/>
+			<item value="400"/>
+			<item value="134"/>
+		</list>
+		<list key="SASH_WEIGHTS">
+			<item value="714"/>
+			<item value="285"/>
+		</list>
+		<section name="DialogBoundsSettings">
+			<item key="DIALOG_HEIGHT" value="500"/>
+			<item key="DIALOG_WIDTH" value="600"/>
+			<item key="DIALOG_X_ORIGIN" value="420"/>
+			<item key="DIALOG_Y_ORIGIN" value="117"/>
+			<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+		</section>
+	</section>
+</section>

@@ -1,0 +1,6 @@
+1582862209016	Delete elements
+1582870318028	Rename field 'id'
+1582870958217	Rename field 'title'
+1582870968932	Rename field 'prof'
+1582871154614	Rename method 'getGpa'
+1582871165061	Rename method 'setGpa'
